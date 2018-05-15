@@ -105,6 +105,11 @@ typedef [v1_enum] enum	_BMDDisplayMode {
     bmdMode4kDCI24                                               = /* '4d24' */ 0x34643234,
     bmdMode4kDCI25                                               = /* '4d25' */ 0x34643235,
 
+    /* RAW Modes for Cintel (input only) */
+
+    bmdModeCintelRAW                                             = /* 'rwci' */ 0x72776369,	// Frame size up to 4096x3072, variable frame rate
+    bmdModeCintelCompressedRAW                                   = /* 'rwcc' */ 0x72776363,	// Frame size up to 4096x3072, variable frame rate
+
     /* Special Modes */
 
     bmdModeUnknown                                               = /* 'iunk' */ 0x69756E6B
@@ -136,7 +141,12 @@ typedef [v1_enum] enum	_BMDPixelFormat {
 
     /* AVID DNxHR */
 
-    bmdFormatDNxHR                                               = /* 'AVdh' */ 0x41566468
+    bmdFormatDNxHR                                               = /* 'AVdh' */ 0x41566468,
+
+    /* Cintel formats */
+
+    bmdFormat12BitRAWGRBG                                        = /* 'r12p' */ 0x72313270,	// 12-bit RAW data for bayer pattern GRBG
+    bmdFormat12BitRAWJPEG                                        = /* 'r16p' */ 0x72313670	// 12-bit RAW data arranged in tiles and JPEG compressed
 } BMDPixelFormat;
 
 /* Enum BMDDisplayModeFlags - Flags to describe the characteristics of an IDeckLinkDisplayMode. */

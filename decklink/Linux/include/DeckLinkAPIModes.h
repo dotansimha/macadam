@@ -37,6 +37,10 @@
     #endif
 #endif
 
+#ifndef BMD_PUBLIC
+	#define BMD_PUBLIC
+#endif
+
 // Type Declarations
 
 
@@ -107,6 +111,11 @@ enum _BMDDisplayMode {
     bmdMode4kDCI24                                               = /* '4d24' */ 0x34643234,
     bmdMode4kDCI25                                               = /* '4d25' */ 0x34643235,
 
+    /* RAW Modes for Cintel (input only) */
+
+    bmdModeCintelRAW                                             = /* 'rwci' */ 0x72776369,	// Frame size up to 4096x3072, variable frame rate
+    bmdModeCintelCompressedRAW                                   = /* 'rwcc' */ 0x72776363,	// Frame size up to 4096x3072, variable frame rate
+
     /* Special Modes */
 
     bmdModeUnknown                                               = /* 'iunk' */ 0x69756E6B
@@ -140,7 +149,12 @@ enum _BMDPixelFormat {
 
     /* AVID DNxHR */
 
-    bmdFormatDNxHR                                               = /* 'AVdh' */ 0x41566468
+    bmdFormatDNxHR                                               = /* 'AVdh' */ 0x41566468,
+
+    /* Cintel formats */
+
+    bmdFormat12BitRAWGRBG                                        = /* 'r12p' */ 0x72313270,	// 12-bit RAW data for bayer pattern GRBG
+    bmdFormat12BitRAWJPEG                                        = /* 'r16p' */ 0x72313670	// 12-bit RAW data arranged in tiles and JPEG compressed
 };
 
 /* Enum BMDDisplayModeFlags - Flags to describe the characteristics of an IDeckLinkDisplayMode. */
@@ -159,7 +173,7 @@ class IDeckLinkDisplayMode;
 
 /* Interface IDeckLinkDisplayModeIterator - enumerates over supported input/output display modes. */
 
-class IDeckLinkDisplayModeIterator : public IUnknown
+class BMD_PUBLIC IDeckLinkDisplayModeIterator : public IUnknown
 {
 public:
     virtual HRESULT Next (/* out */ IDeckLinkDisplayMode **deckLinkDisplayMode) = 0;
@@ -170,7 +184,7 @@ protected:
 
 /* Interface IDeckLinkDisplayMode - represents a display mode */
 
-class IDeckLinkDisplayMode : public IUnknown
+class BMD_PUBLIC IDeckLinkDisplayMode : public IUnknown
 {
 public:
     virtual HRESULT GetName (/* out */ const char **name) = 0;
