@@ -4,10 +4,10 @@
 
 
  /* File created by MIDL compiler version 8.00.0603 */
-/* at Thu Jun 29 10:37:10 2017
+/* at Wed May 16 00:17:27 2018
  */
 /* Compiler settings for DeckLinkAPI.idl:
-    Oicf, W1, Zp8, env=Win64 (32b run), target_arch=AMD64 8.00.0603 
+    Oicf, W1, Zp8, env=Win32 (32b run), target_arch=X86 8.00.0603 
     protocol : dce , ms_ext, c_ext, robust
     error checks: allocation ref bounds_check enum stub_data 
     VC __declspec() decoration level: 
@@ -494,6 +494,13 @@ typedef struct CDeckLinkDiscovery CDeckLinkDiscovery;
 #endif 	/* __CDeckLinkDiscovery_FWD_DEFINED__ */
 
 
+#ifndef __IDeckLinkConfiguration_v10_9_FWD_DEFINED__
+#define __IDeckLinkConfiguration_v10_9_FWD_DEFINED__
+typedef interface IDeckLinkConfiguration_v10_9 IDeckLinkConfiguration_v10_9;
+
+#endif 	/* __IDeckLinkConfiguration_v10_9_FWD_DEFINED__ */
+
+
 #ifndef __CBMDStreamingDiscovery_v10_8_FWD_DEFINED__
 #define __CBMDStreamingDiscovery_v10_8_FWD_DEFINED__
 
@@ -936,6 +943,8 @@ enum _BMDDisplayMode
         bmdMode4kDCI2398	= 0x34643233,
         bmdMode4kDCI24	= 0x34643234,
         bmdMode4kDCI25	= 0x34643235,
+        bmdModeCintelRAW	= 0x72776369,
+        bmdModeCintelCompressedRAW	= 0x72776363,
         bmdModeUnknown	= 0x69756e6b
     } 	BMDDisplayMode;
 
@@ -962,7 +971,9 @@ enum _BMDPixelFormat
         bmdFormat10BitRGBXLE	= 0x5231306c,
         bmdFormat10BitRGBX	= 0x52313062,
         bmdFormatH265	= 0x68657631,
-        bmdFormatDNxHR	= 0x41566468
+        bmdFormatDNxHR	= 0x41566468,
+        bmdFormat12BitRAWGRBG	= 0x72313270,
+        bmdFormat12BitRAWJPEG	= 0x72313670
     } 	BMDPixelFormat;
 
 /* [v1_enum] */ 
@@ -983,7 +994,6 @@ typedef /* [v1_enum] */
 enum _BMDDeckLinkConfigurationID
     {
         bmdDeckLinkConfigSwapSerialRxTx	= 0x73737274,
-        bmdDeckLinkConfigUse1080pNotPsF	= 0x6670726f,
         bmdDeckLinkConfigHDMI3DPackingFormat	= 0x33647066,
         bmdDeckLinkConfigBypass	= 0x62797073,
         bmdDeckLinkConfigClockTimingAdjustment	= 0x63746164,
@@ -996,6 +1006,7 @@ enum _BMDDeckLinkConfigurationID
         bmdDeckLinkConfigLowLatencyVideoOutput	= 0x6c6c766f,
         bmdDeckLinkConfigDownConversionOnAllAnalogOutput	= 0x6361616f,
         bmdDeckLinkConfigSMPTELevelAOutput	= 0x736d7461,
+        bmdDeckLinkConfigOutput1080pAsPsF	= 0x70667072,
         bmdDeckLinkConfigVideoOutputConnection	= 0x766f636e,
         bmdDeckLinkConfigVideoOutputConversionMode	= 0x766f636d,
         bmdDeckLinkConfigAnalogVideoOutputFlags	= 0x61766f66,
@@ -1014,6 +1025,7 @@ enum _BMDDeckLinkConfigurationID
         bmdDeckLinkConfigVideoInputScanning	= 0x76697363,
         bmdDeckLinkConfigUseDedicatedLTCInput	= 0x646c7463,
         bmdDeckLinkConfigSDIInput3DPayloadOverride	= 0x33646473,
+        bmdDeckLinkConfigCapture1080pAsPsF	= 0x63667072,
         bmdDeckLinkConfigVideoInputConnection	= 0x7669636e,
         bmdDeckLinkConfigAnalogVideoInputFlags	= 0x61766966,
         bmdDeckLinkConfigVideoInputConversionMode	= 0x7669636d,
@@ -1507,10 +1519,14 @@ enum _BMDDeckLinkFrameMetadataID
         bmdDeckLinkFrameMetadataCintelFilmGauge	= 0x63666761,
         bmdDeckLinkFrameMetadataCintelOffsetDetectedHorizontal	= 0x6f646668,
         bmdDeckLinkFrameMetadataCintelOffsetDetectedVertical	= 0x6f646676,
-        bmdDeckLinkFrameMetadataCintelOffsetAppliedHorizontal	= 0x6f646168,
-        bmdDeckLinkFrameMetadataCintelOffsetAppliedVertical	= 0x6f646176,
         bmdDeckLinkFrameMetadataCintelKeykodeLow	= 0x636b6b6c,
         bmdDeckLinkFrameMetadataCintelKeykodeHigh	= 0x636b6b68,
+        bmdDeckLinkFrameMetadataCintelTile1Size	= 0x63743173,
+        bmdDeckLinkFrameMetadataCintelTile2Size	= 0x63743273,
+        bmdDeckLinkFrameMetadataCintelTile3Size	= 0x63743373,
+        bmdDeckLinkFrameMetadataCintelTile4Size	= 0x63743473,
+        bmdDeckLinkFrameMetadataCintelImageWidth	= 0x49575078,
+        bmdDeckLinkFrameMetadataCintelImageHeight	= 0x49485078,
         bmdDeckLinkFrameMetadataCintelLinearMaskingRedInRed	= 0x6d726972,
         bmdDeckLinkFrameMetadataCintelLinearMaskingGreenInRed	= 0x6d676972,
         bmdDeckLinkFrameMetadataCintelLinearMaskingBlueInRed	= 0x6d626972,
@@ -1529,6 +1545,7 @@ enum _BMDDeckLinkFrameMetadataID
         bmdDeckLinkFrameMetadataCintelLogMaskingRedInBlue	= 0x6d6c7262,
         bmdDeckLinkFrameMetadataCintelLogMaskingGreenInBlue	= 0x6d6c6762,
         bmdDeckLinkFrameMetadataCintelLogMaskingBlueInBlue	= 0x6d6c6262,
+        bmdDeckLinkFrameMetadataCintelFilmFrameRate	= 0x63666672,
         bmdDeckLinkFrameMetadataHDRDisplayPrimariesRedX	= 0x68647278,
         bmdDeckLinkFrameMetadataHDRDisplayPrimariesRedY	= 0x68647279,
         bmdDeckLinkFrameMetadataHDRDisplayPrimariesGreenX	= 0x68646778,
@@ -1541,11 +1558,14 @@ enum _BMDDeckLinkFrameMetadataID
         bmdDeckLinkFrameMetadataHDRMinDisplayMasteringLuminance	= 0x686d696c,
         bmdDeckLinkFrameMetadataHDRMaximumContentLightLevel	= 0x6d636c6c,
         bmdDeckLinkFrameMetadataHDRMaximumFrameAverageLightLevel	= 0x66616c6c,
-        bmdDeckLinkFrameMetadataCintel16mmCropRequired	= 0x63313663,
-        bmdDeckLinkFrameMetadataCintelInversionRequired	= 0x63696e76,
-        bmdDeckLinkFrameMetadataCintelFlipRequired	= 0x63666c72,
-        bmdDeckLinkFrameMetadataCintelFocusAssistEnabled	= 0x63666165,
-        bmdDeckLinkFrameMetadataCintelKeykodeIsInterpolated	= 0x6b6b6969
+        bmdDeckLinkFrameMetadataCintelOffsetToApplyHorizontal	= 0x6f746168,
+        bmdDeckLinkFrameMetadataCintelOffsetToApplyVertical	= 0x6f746176,
+        bmdDeckLinkFrameMetadataCintelGainRed	= 0x4c665264,
+        bmdDeckLinkFrameMetadataCintelGainGreen	= 0x4c664772,
+        bmdDeckLinkFrameMetadataCintelGainBlue	= 0x4c66426c,
+        bmdDeckLinkFrameMetadataCintelLiftRed	= 0x476e5264,
+        bmdDeckLinkFrameMetadataCintelLiftGreen	= 0x476e4772,
+        bmdDeckLinkFrameMetadataCintelLiftBlue	= 0x476e426c
     } 	BMDDeckLinkFrameMetadataID;
 
 typedef /* [v1_enum] */ 
@@ -1724,6 +1744,13 @@ enum _BMDNotifications
 
 
 
+
+
+typedef /* [v1_enum] */ 
+enum _BMDDeckLinkConfigurationID_v10_9
+    {
+        bmdDeckLinkConfig1080pNotPsF_v10_9	= 0x6670726f
+    } 	BMDDeckLinkConfigurationID_v10_9;
 
 
 typedef /* [v1_enum] */ 
@@ -2252,7 +2279,7 @@ EXTERN_C const IID IID_IDeckLinkConfiguration;
 
 #if defined(__cplusplus) && !defined(CINTERFACE)
     
-    MIDL_INTERFACE("CB71734A-FE37-4E8D-8E13-802133A1C3F2")
+    MIDL_INTERFACE("EF90380B-4AE5-4346-9077-E288E149F129")
     IDeckLinkConfiguration : public IUnknown
     {
     public:
@@ -8701,6 +8728,180 @@ EXTERN_C const CLSID CLSID_CDeckLinkDiscovery;
 class DECLSPEC_UUID("652615D4-26CD-4514-B161-2FD5072ED008")
 CDeckLinkDiscovery;
 #endif
+
+#ifndef __IDeckLinkConfiguration_v10_9_INTERFACE_DEFINED__
+#define __IDeckLinkConfiguration_v10_9_INTERFACE_DEFINED__
+
+/* interface IDeckLinkConfiguration_v10_9 */
+/* [helpstring][local][uuid][object] */ 
+
+
+EXTERN_C const IID IID_IDeckLinkConfiguration_v10_9;
+
+#if defined(__cplusplus) && !defined(CINTERFACE)
+    
+    MIDL_INTERFACE("CB71734A-FE37-4E8D-8E13-802133A1C3F2")
+    IDeckLinkConfiguration_v10_9 : public IUnknown
+    {
+    public:
+        virtual HRESULT STDMETHODCALLTYPE SetFlag( 
+            /* [in] */ BMDDeckLinkConfigurationID cfgID,
+            /* [in] */ BOOL value) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE GetFlag( 
+            /* [in] */ BMDDeckLinkConfigurationID cfgID,
+            /* [out] */ BOOL *value) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE SetInt( 
+            /* [in] */ BMDDeckLinkConfigurationID cfgID,
+            /* [in] */ LONGLONG value) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE GetInt( 
+            /* [in] */ BMDDeckLinkConfigurationID cfgID,
+            /* [out] */ LONGLONG *value) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE SetFloat( 
+            /* [in] */ BMDDeckLinkConfigurationID cfgID,
+            /* [in] */ double value) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE GetFloat( 
+            /* [in] */ BMDDeckLinkConfigurationID cfgID,
+            /* [out] */ double *value) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE SetString( 
+            /* [in] */ BMDDeckLinkConfigurationID cfgID,
+            /* [in] */ BSTR value) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE GetString( 
+            /* [in] */ BMDDeckLinkConfigurationID cfgID,
+            /* [out] */ BSTR *value) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE WriteConfigurationToPreferences( void) = 0;
+        
+    };
+    
+    
+#else 	/* C style interface */
+
+    typedef struct IDeckLinkConfiguration_v10_9Vtbl
+    {
+        BEGIN_INTERFACE
+        
+        HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
+            IDeckLinkConfiguration_v10_9 * This,
+            /* [in] */ REFIID riid,
+            /* [annotation][iid_is][out] */ 
+            _COM_Outptr_  void **ppvObject);
+        
+        ULONG ( STDMETHODCALLTYPE *AddRef )( 
+            IDeckLinkConfiguration_v10_9 * This);
+        
+        ULONG ( STDMETHODCALLTYPE *Release )( 
+            IDeckLinkConfiguration_v10_9 * This);
+        
+        HRESULT ( STDMETHODCALLTYPE *SetFlag )( 
+            IDeckLinkConfiguration_v10_9 * This,
+            /* [in] */ BMDDeckLinkConfigurationID cfgID,
+            /* [in] */ BOOL value);
+        
+        HRESULT ( STDMETHODCALLTYPE *GetFlag )( 
+            IDeckLinkConfiguration_v10_9 * This,
+            /* [in] */ BMDDeckLinkConfigurationID cfgID,
+            /* [out] */ BOOL *value);
+        
+        HRESULT ( STDMETHODCALLTYPE *SetInt )( 
+            IDeckLinkConfiguration_v10_9 * This,
+            /* [in] */ BMDDeckLinkConfigurationID cfgID,
+            /* [in] */ LONGLONG value);
+        
+        HRESULT ( STDMETHODCALLTYPE *GetInt )( 
+            IDeckLinkConfiguration_v10_9 * This,
+            /* [in] */ BMDDeckLinkConfigurationID cfgID,
+            /* [out] */ LONGLONG *value);
+        
+        HRESULT ( STDMETHODCALLTYPE *SetFloat )( 
+            IDeckLinkConfiguration_v10_9 * This,
+            /* [in] */ BMDDeckLinkConfigurationID cfgID,
+            /* [in] */ double value);
+        
+        HRESULT ( STDMETHODCALLTYPE *GetFloat )( 
+            IDeckLinkConfiguration_v10_9 * This,
+            /* [in] */ BMDDeckLinkConfigurationID cfgID,
+            /* [out] */ double *value);
+        
+        HRESULT ( STDMETHODCALLTYPE *SetString )( 
+            IDeckLinkConfiguration_v10_9 * This,
+            /* [in] */ BMDDeckLinkConfigurationID cfgID,
+            /* [in] */ BSTR value);
+        
+        HRESULT ( STDMETHODCALLTYPE *GetString )( 
+            IDeckLinkConfiguration_v10_9 * This,
+            /* [in] */ BMDDeckLinkConfigurationID cfgID,
+            /* [out] */ BSTR *value);
+        
+        HRESULT ( STDMETHODCALLTYPE *WriteConfigurationToPreferences )( 
+            IDeckLinkConfiguration_v10_9 * This);
+        
+        END_INTERFACE
+    } IDeckLinkConfiguration_v10_9Vtbl;
+
+    interface IDeckLinkConfiguration_v10_9
+    {
+        CONST_VTBL struct IDeckLinkConfiguration_v10_9Vtbl *lpVtbl;
+    };
+
+    
+
+#ifdef COBJMACROS
+
+
+#define IDeckLinkConfiguration_v10_9_QueryInterface(This,riid,ppvObject)	\
+    ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
+
+#define IDeckLinkConfiguration_v10_9_AddRef(This)	\
+    ( (This)->lpVtbl -> AddRef(This) ) 
+
+#define IDeckLinkConfiguration_v10_9_Release(This)	\
+    ( (This)->lpVtbl -> Release(This) ) 
+
+
+#define IDeckLinkConfiguration_v10_9_SetFlag(This,cfgID,value)	\
+    ( (This)->lpVtbl -> SetFlag(This,cfgID,value) ) 
+
+#define IDeckLinkConfiguration_v10_9_GetFlag(This,cfgID,value)	\
+    ( (This)->lpVtbl -> GetFlag(This,cfgID,value) ) 
+
+#define IDeckLinkConfiguration_v10_9_SetInt(This,cfgID,value)	\
+    ( (This)->lpVtbl -> SetInt(This,cfgID,value) ) 
+
+#define IDeckLinkConfiguration_v10_9_GetInt(This,cfgID,value)	\
+    ( (This)->lpVtbl -> GetInt(This,cfgID,value) ) 
+
+#define IDeckLinkConfiguration_v10_9_SetFloat(This,cfgID,value)	\
+    ( (This)->lpVtbl -> SetFloat(This,cfgID,value) ) 
+
+#define IDeckLinkConfiguration_v10_9_GetFloat(This,cfgID,value)	\
+    ( (This)->lpVtbl -> GetFloat(This,cfgID,value) ) 
+
+#define IDeckLinkConfiguration_v10_9_SetString(This,cfgID,value)	\
+    ( (This)->lpVtbl -> SetString(This,cfgID,value) ) 
+
+#define IDeckLinkConfiguration_v10_9_GetString(This,cfgID,value)	\
+    ( (This)->lpVtbl -> GetString(This,cfgID,value) ) 
+
+#define IDeckLinkConfiguration_v10_9_WriteConfigurationToPreferences(This)	\
+    ( (This)->lpVtbl -> WriteConfigurationToPreferences(This) ) 
+
+#endif /* COBJMACROS */
+
+
+#endif 	/* C style interface */
+
+
+
+
+#endif 	/* __IDeckLinkConfiguration_v10_9_INTERFACE_DEFINED__ */
+
 
 EXTERN_C const CLSID CLSID_CBMDStreamingDiscovery_v10_8;
 
